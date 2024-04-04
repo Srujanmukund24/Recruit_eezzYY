@@ -23,7 +23,7 @@ connectDB();
 
 //all the routes:
 app.use("/auth",require("./routes/authRoutes"));
-// app.use("/candidate",require("./routes/candidateRoutes"));
+app.use("/candidate",require("./routes/candidateRoutes"));
 // app.use("/recruiter",require("./routes/recruiterRoutes"));
 
 //application on this port.

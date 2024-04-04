@@ -58,5 +58,4 @@ const candidateSchema = new Schema({
     }
 });
 
-// Create and export the Candidate model
 module.exports = mongoose.model('Candidate', candidateSchema);

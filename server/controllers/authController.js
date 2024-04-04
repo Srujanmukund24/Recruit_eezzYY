@@ -1,5 +1,6 @@
 const Candidate=require("../models/candidate");
 const Recruiter=require("../models/recruiter");
+const Admin=require("../models/admin");
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 
@@ -141,4 +142,53 @@ const logout = (req, res) => {
     res.status(200).json({ message: "Logout successful" });
 };
 
-module.exports={registerCandidate,loginCandidate,registerRecruiter,loginRecruiter,logout};
+//admin controoller only for the developer use ;
+const registerAdmin=async(req,res)=>{
+    const { username, email, password } = req.body;
+
+    try {
+        const existingAdmin = await Admin.findOne({ email });
+        if (existingAdmin) {
+            return res.status(400).json({ message: "Admin already exists with the same email" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newAdmin = new Admin({
+            username,
+            email,
+            password: hashedPassword
+        });
+
+        await newAdmin.save();
+
+        res.status(201).json(newAdmin);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+const loginAdmin=async(req,res)=>{
+    const { email, password } = req.body;
+
+    try {
+        const admin = await Admin.findOne({ email });
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }        
+        // Create and send JWT token
+        const token = jwt.sign({ adminId: admin._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        res.cookie("jwt", token, { httpOnly: true, secure: true, maxAge: 3600000 });
+
+        res.status(200).json({ message: 'Login successful',admin});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+module.exports={registerCandidate,loginCandidate,registerRecruiter,loginRecruiter,logout,registerAdmin,loginAdmin};
