@@ -11,20 +11,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const Candidate=require('./models/candidate')
-const Recruiter=require('./models/recruiter')
-const Jobs=require('./models/jobs')
-const Application=require('./models/applications')
+// const Candidate=require('./models/candidate')
+// const Recruiter=require('./models/recruiter')
+// const Jobs=require('./models/jobs')
+// const Application=require('./models/applications')
 
 
 //database connetion
 dotenv.config();
 connectDB();
 
+//all the routes:
+app.use("/auth",require("./routes/authRoutes"));
+// app.use("/candidate",require("./routes/candidateRoutes"));
+// app.use("/recruiter",require("./routes/recruiterRoutes"));
 
 //application on this port.
 app.listen(port, () => {
     console.log(
-      `Node Server Running on Port ${process.env.PORT || 8080}`
+      `Node Server Running on Port ${port}`
     );
 });
