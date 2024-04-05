@@ -24,7 +24,7 @@ connectDB();
 //all the routes:
 app.use("/auth",require("./routes/authRoutes"));
 app.use("/candidate",require("./routes/candidateRoutes"));
-// app.use("/recruiter",require("./routes/recruiterRoutes"));
+app.use("/recruiter",require("./routes/RecruiterRoutes"));
 
 //application on this port.
 app.listen(port, () => {

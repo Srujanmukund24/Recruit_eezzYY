@@ -14,7 +14,7 @@ const authorizeCandidate = async (req, res, next) => {
         const candidate = await Candidate.findById(decoded.candidateId);
 
         if (!candidate) {
-            return res.status(401).send("Invalid token");
+            return res.status(401).send("Only Candiadtes allowed ");
         }
 
         req.candidate = candidate;
@@ -37,7 +37,7 @@ const authorizeRecruiter = async (req, res, next) => {
         const recruiter = await Recruiter.findById(decoded.recruiterId);
 
         if (!recruiter) {
-            return res.status(401).send("Invalid token");
+            return res.status(401).send("allowed Recruter allowed..");
         }
 
         req.recruiter = recruiter;
