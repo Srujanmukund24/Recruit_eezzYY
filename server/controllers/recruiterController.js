@@ -34,5 +34,34 @@ const addJob = async (req, res) => {
     }
 };
 
+const getJobsPosted = async (req, res) => {
+    try {
+        const jobs = await Job.find({recruiterId:req.recruiter._id});
+        if (!jobs || jobs.length === 0) {
+            return res.status(404).json({ message: "No jobs found posted yet" });
+        }
 
-module.exports={addJob}
+        res.status(200).json(jobs);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const getApplicationsForJobs=async(req,res)=>{
+    try {
+        const { jobId }=req.params;
+        if(!jobId){
+            return res.status(404).json({message:"No params"});  
+        }
+        const applications = await Application.find({jobId:jobId});
+        if(!applications){
+            return res.status(404).json({message:"No applications for the jobs applied yet."})
+        }
+        res.status(200).json(applications);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });       
+    }
+}
+module.exports={addJob,getJobsPosted,getApplicationsForJobs}

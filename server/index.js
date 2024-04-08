@@ -22,6 +22,7 @@ dotenv.config();
 connectDB();
 
 //all the routes:
+app.use("/admin",require("./routes/adminRoutes"));
 app.use("/auth",require("./routes/authRoutes"));
 app.use("/candidate",require("./routes/candidateRoutes"));
 app.use("/recruiter",require("./routes/RecruiterRoutes"));

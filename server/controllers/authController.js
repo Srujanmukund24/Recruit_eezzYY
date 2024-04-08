@@ -182,7 +182,7 @@ const loginAdmin=async(req,res)=>{
             return res.status(401).json({ message: 'Invalid credentials' });
         }        
         // Create and send JWT token
-        const token = jwt.sign({ adminId: admin._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ email,adminId: admin._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
         res.cookie("jwt", token, { httpOnly: true, secure: true, maxAge: 3600000 });
 
         res.status(200).json({ message: 'Login successful',admin});
