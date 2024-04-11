@@ -9,6 +9,7 @@ router.get("/alljobs/:jobId",authorizeCandidate,getJobById);
 
 //apply for the job
 router.post("/alljobs/:jobId/apply",authorizeCandidate,createApplicationForJobId);
+router.post("/myapplication/:applicationId/cancel",authorizeCandidate,);
 //get the company details who posted the job
 router.get("/recruiterdetails/:recruiterId",authorizeCandidate,getRecruiterDetails);
 //get all my applications and the particular application .

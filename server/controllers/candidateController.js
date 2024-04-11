@@ -102,13 +102,20 @@ const createApplicationForJobId = async (req, res) => {
 
     const { coverLetter } = req.body;
 
+    const currentDate = new Date();
+    const deadlineDate = new Date(job.deadline);
+
+    if (currentDate > deadlineDate) {
+      return res.status(400).json({ message: "Application deadline has passed" });
+    }
+
     const newApplication = new Application({
       jobId: jobId,
       recruiterId: recruiterId,
       candidateId: candidateId,
       coverLetter: coverLetter,
     });
-
+    
     await newApplication.save();
     res.status(200).json(newApplication);
   } catch (error) {
@@ -116,6 +123,7 @@ const createApplicationForJobId = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 module.exports = {
   getAllJobs,
   getMyApplications,

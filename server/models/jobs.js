@@ -52,10 +52,6 @@ const jobSchema = new Schema({
         type: String,
         required: true
     },
-    appliedApplications: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Application'
-    }],
     acceptedCandidates: [{
         type: Schema.Types.ObjectId,
         ref: 'Candidate'
